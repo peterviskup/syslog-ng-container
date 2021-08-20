@@ -3,7 +3,7 @@ Instantiated configuration profile for syslog-ng
 
 Based on use of systemd instantiated services and jailkit
 
-Not all new features of systemd are used in service profile. It is hard to see which systemd version does support what functionality. Some bugs in systemd chrooting were discovered in the past, thus relying on old-fashioned ExecStartPre/ExecStartPost commands and environment files instead of RootDirectory. Recommend others do the same.
+Not all new features of systemd are used in service profile. It is hard to discover what systemd version does support what functionality. Some bugs in systemd chrooting were discovered in the past, thus relying on old-fashioned ExecStartPre/ExecStartPost commands and environment files instead of RootDirectory. Recommend others do the same.
 
 # Motivation
 Create syslog environment with aim of security and reliability
