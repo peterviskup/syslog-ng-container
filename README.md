@@ -10,12 +10,17 @@ Create syslog environment with aim of security and reliability
 
 Chrooting with privilege separation and Linux capabilities provide enough security guarantees.
 Systemd with syslog-ng configuration templating provide ease of configuration and service reliability guarantees.
+(nice to see syslog-ng has internal support for Linux capabilities and chrooting)
 
 Configuration should be divided to two stages global and instance-specific.
 
 Every syslog instance should:
  - receive and process similar type of messages (network, linux, application, windows)
  - have own message processing, filtering and patterndb profiles
+
+All instances can share:
+ - global processing, filtering, tagging rules
+ - SCL library modules wherever appropriate
 
 Sources:
 https://www.freedesktop.org/software/systemd/man/systemd.service.html
