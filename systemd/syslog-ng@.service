@@ -1,0 +1,33 @@
+[Unit]
+Description=System Logger Daemon instance %i
+Documentation=man:syslog-ng(8)
+Wants=network.target network-online.target
+After=network.target network-online.target
+AssertPathExists=/chroot/%ilog/etc/syslog-ng/syslog-ng.conf
+PartOf=syslog-ng.service
+
+[Service]
+Type=notify
+# Load environment variables used in configuration profile
+EnvironmentFile=-/etc/default/syslog-ng
+EnvironmentFile=-/etc/sysconfig/syslog-ng
+EnvironmentFile=-/etc/default/syslog-ng@%i
+# Prepare chroot environment
+#ExecStartPre=
+ExecStartPre=/usr/sbin/jk_update -v -j /chroot/%ilog
+ExecStartPre=touch /chroot/%ilog/run/systemd/notify /chroot/%ilog/run/systemd/journal/socket /chroot/%ilog/run/systemd/journal/stdout
+ExecStartPre=chown -R %ilog:%ilog /chroot/%ilog/var/lib/syslog-ng /chroot/%ilog/var/log
+ExecStartPre=mount -v -o bind /run/systemd/notify /chroot/%ilog/run/systemd/notify
+ExecStartPre=mount -v -o bind /dev/log /chroot/%ilog/dev/log
+# Start syslog-ng with use of its own internal chroot functionality
+ExecStart=/usr/sbin/syslog-ng --chroot /chroot/%ilog -F $SYSLOGNG_OPTS -u %ilog -g %ilog
+ExecReload=/bin/kill -HUP $MAINPID
+# Cleanup host after stopping
+#ExecStartPost=
+ExecStartPost=umount -v /chroot/%ilog/run/systemd/notify /chroot/%ilog/dev/log
+StandardOutput=journal
+StandardError=journal
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
