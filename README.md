@@ -3,14 +3,13 @@ Instantiated configuration profile for syslog-ng
 
 Based on use of systemd instantiated services and jailkit
 
-Not all new features of systemd are used as it is hard to see which systemd version does support what functionality and some bugs in chrooting were discovered in the past, thus relying on old-fashioned ExecStartPre/ExecStartPost commands and environment files
+Not all new features of systemd are used in service profile. It is hard to see which systemd version does support what functionality. Some bugs in systemd chrooting were discovered in the past, thus relying on old-fashioned ExecStartPre/ExecStartPost commands and environment files instead of RootDirectory. Recommend others do the same.
 
 # Motivation
 Create syslog environment with aim of security and reliability
 
-Chrooting with privilege separation and Linux capabilities provide enough security guarantees.
+Use of internal syslog-ng chrooting with privilege separation and Linux capabilities provide enough security guarantees.
 Systemd with syslog-ng configuration templating provide ease of configuration and service reliability guarantees.
-(nice to see syslog-ng has internal support for Linux capabilities and chrooting)
 
 Configuration should be divided to two stages global and instance-specific.
 
@@ -28,3 +27,7 @@ https://www.freedesktop.org/software/systemd/man/systemd.unit.html#
 http://0pointer.de/blog/projects/instances.html
 https://github.com/syslog-ng/syslog-ng/blob/master/contrib/systemd/syslog-ng%40.service
 https://olivier.sessink.nl/jailkit/
+
+For those who are concerned about the justification of chrooting and instance separation some vulnerability links:
+- https://cve.mitre.org/cgi-bin/cvekey.cgi?keyword=syslog-ng
+- https://cve.mitre.org/cgi-bin/cvekey.cgi?keyword=rsyslog
