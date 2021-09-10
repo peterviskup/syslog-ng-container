@@ -31,3 +31,15 @@ https://olivier.sessink.nl/jailkit/
 For those who are concerned about the justification of chrooting and instance separation some vulnerability links:
 - https://cve.mitre.org/cgi-bin/cvekey.cgi?keyword=syslog-ng
 - https://cve.mitre.org/cgi-bin/cvekey.cgi?keyword=rsyslog
+
+# Design
+ - use one global "configuration package"
+ - separate global and instance specific configuration snippets
+ - define instance specific patterndb profile
+
+## Configuration chain
+<pre>syslog-ng.conf -> scl
+               -> conf.d
+               -> syslog-ng-`INSTANCE`.conf -> `INSTANCE`/scl
+                                            -> `INSTANCE`/conf.d
+</pre>
