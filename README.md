@@ -37,10 +37,44 @@ For those who are concerned about the justification of chrooting and instance se
  - separate global and instance specific configuration snippets
  - define instance specific patterndb profile
 
+Two sections:
+- global (shared configuration option parameters)
+  - network inputs
+  - standard parser chain
+  - global SCL
+  - templates
+    - filestore
+    - relay-to-relay
+- instance specific (configuration option parameters specific for particular instance)
+  - patterndb profile
+  - input parser chain
+  - instance SCL
+  - ?other message processing?
+
 ## Configuration chain
 <pre>syslog-ng.conf -> scl
                -> conf.d
                -> syslog-ng-`INSTANCE`.conf -> `INSTANCE`/scl
                                             -> `INSTANCE`/conf.d
                                             -> `INSTANCE`/patterndb
+</pre>
+### Example
+<pre>
+root@syslog1:/etc/syslog-ng# cat /etc/default/syslog-ng@lin
+INSTANCE="lin"
+LISTEN_PORT=32514
+LISTEN_IP=1.2.3.4
+root@syslog1:/etc/syslog-ng# cat syslog-ng.conf
+@version: 3.27
+@include "syslog-ng-`INSTANCE`.conf"
+.....
+root@syslog1:/etc/syslog-ng# head syslog-ng-lin.conf 
+@version: 3.27
+@include "`INSTANCE`/scl.conf"
+
+# Syslog-ng configuration file, compatible with default Debian syslogd
+# installation.
+.....
+@include "`INSTANCE`/conf.d"
+.....
 </pre>
