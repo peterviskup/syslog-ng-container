@@ -1,7 +1,7 @@
 # syslog-ng-conf
 Instantiated configuration profile for syslog-ng
 
-Based on use of systemd instantiated services and jailkit
+Based on use of systemd instantiated services, jailkit and 
 
 Not all new features of systemd are used in service profile. It is hard to discover what systemd version does support what functionality. Some bugs in systemd chrooting were discovered in the past, thus relying on old-fashioned ExecStartPre/ExecStartPost commands and environment files instead of RootDirectory. Recommend others do the same or similar with standard chroot utility in case the service does not support chrooting internally.
 
