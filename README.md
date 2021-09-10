@@ -42,4 +42,5 @@ For those who are concerned about the justification of chrooting and instance se
                -> conf.d
                -> syslog-ng-`INSTANCE`.conf -> `INSTANCE`/scl
                                             -> `INSTANCE`/conf.d
+                                            -> `INSTANCE`/patterndb
 </pre>
