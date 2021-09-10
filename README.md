@@ -58,6 +58,14 @@ Two sections:
                                             -> `INSTANCE`/conf.d
                                             -> `INSTANCE`/patterndb
 </pre>
+or the chain can be flat
+<pre>syslog-ng.conf -> scl
+               -> scl.conf-`INSTANCE`
+               -> conf.d
+               -> conf.d-`INSTANCE`
+               -> syslog-ng-`INSTANCE`.conf
+               -> patterndb-`INSTANCE`
+</pre>
 ### Example
 <pre>
 root@syslog1:/etc/syslog-ng# cat /etc/default/syslog-ng@lin
