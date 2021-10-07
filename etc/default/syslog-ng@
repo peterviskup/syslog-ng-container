@@ -1,0 +1,3 @@
+LOCATION=hq
+LOGPATH=/var/log/remotelogs
+BUFPATH=/var/lib/syslog-ng/remotelogs
