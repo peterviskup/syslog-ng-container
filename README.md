@@ -66,23 +66,12 @@ or the chain can be flat
                -> syslog-ng-`INSTANCE`.conf
                -> patterndb-`INSTANCE`
 </pre>
-### Example
-<pre>
-root@syslog1:/etc/syslog-ng# cat /etc/default/syslog-ng@lin
-INSTANCE="lin"
-LISTEN_PORT=32514
-LISTEN_IP=1.2.3.4
-root@syslog1:/etc/syslog-ng# cat syslog-ng.conf
-@version: 3.27
-@include "syslog-ng-`INSTANCE`.conf"
-.....
-root@syslog1:/etc/syslog-ng# head syslog-ng-lin.conf 
-@version: 3.27
-@include "`INSTANCE`/scl.conf"
-
-# Syslog-ng configuration file, compatible with default Debian syslogd
-# installation.
-.....
-@include "`INSTANCE`/conf.d"
-.....
-</pre>
+## Environment variables
+| Variable | Definition path | Description |
+|----|----|----|
+| LISTEN_IP/PORT | /etc/default/syslog-ng@inst | IP address and port to listen for syslog reception |
+| RELAY_IP/PORT | /etc/default/syslog-ng@inst | IP address and port of next syslog relay host |
+| INSTANCE | /etc/default/syslog-ng@inst | name of the instance, referred in configuration processing and file store templates |
+| LOCATION | /etc/default/syslog-ng@ | name of the location of the syslog server, might be referred in  |
+| LOGPATH | /etc/default/syslog-ng@ | directory to store messages in files, every instance has own subdirectory ${LOGPATH}/%i store |
+| BUFPATH | /etc/default/syslog-ng@ | same as LOGPATH for storing disk-buffer files for instance forwardings |
