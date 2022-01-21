@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: syslog
+  namespace: kube-system
+  labels:
+    k8s-app: syslog-ng-fwd
+spec:
+  selector:
+    matchLabels:
+      name: syslog-fwd
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+  template:
+    metadata:
+      labels:
+        name: syslog-fwd
+    spec:
+      tolerations:
+      - key: node-role.kubernetes.io/master
+        operator: Exists
+        effect: NoSchedule
+      terminationGracePeriodSeconds: 30
+      containers:
+      - name: syslog-ng
+        image: balabit/syslog-ng:latest
+        resources:
+          limits:
+            memory: 100Mi
+          requests:
+            memory: 10Mi
+            cpu: 100m
+        command: ["/usr/sbin/syslog-ng"]
+        args: ["-F"]
+        volumeMounts:
+        - mountPath: /var/log
+          name: log-storage
+        - mountPath: /var/log/containers
+          name: log-containers
+          #subPathExpr: $(POD_NAME)
+          readOnly: true
+        - mountPath: /var/log/pods
+          name: log-pods
+          #subPathExpr: $(POD_NAME)
+          readOnly: true
+        - mountPath: /etc/syslog-ng
+          name: log-conf
+          readOnly: true
+      volumes:
+      - name: log-storage
+        hostPath:
+          path: /srv/log
+          type: DirectoryOrCreate
+      - name: log-containers
+        hostPath:
+          path: /var/log/containers
+      - name: log-pods
+        hostPath:
+          path: /var/log/pods
+      - name: log-conf
+        hostPath:
+          path: /srv/logconf
+          type: Directory
