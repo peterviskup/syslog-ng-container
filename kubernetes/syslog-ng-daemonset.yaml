@@ -61,5 +61,5 @@ spec:
           path: /var/log/pods
       - name: log-conf
         hostPath:
-          path: /srv/logconf
+          path: ./syslog-ng/
           type: Directory
